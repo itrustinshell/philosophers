@@ -12,6 +12,10 @@
 
 #include "philo.h"
 
+/* the following functions save the last_time a philosophers started eating
+and makes the philosopher eat. This function is important becouse of another 
+reason too: it releases the forks-mutex previously locked when a philosophers 
+started to acquire both forks to eat. */
 static void	eating(t_thread_pmt	*pmt)
 {
 	msg(pmt, EAT, GREEN);
@@ -23,6 +27,8 @@ static void	eating(t_thread_pmt	*pmt)
 	pthread_mutex_unlock(&(pmt->forks)[pmt->forkright]);
 }
 
+/* this is the routine that is executed when the user specifies the
+number of meals each philosophers should eat.*/
 static void	*routine_with_n_of_meals(void *param)
 {
 	t_thread_pmt	*pmt;
@@ -113,13 +119,10 @@ static void	*routine_without_n_of_meals(void *param)
 	return (NULL);
 }
 
-/*
-	This function determines what routine has to be execute, depending on the
-	user'sinput. If the user specifies the number of meals, 
-	the corresponding routin
-	will be chosen, otherwise the other routine (which doesn't expect to manage
-	the number of meals) will be execute
-*/
+/* This function determines what routine has to be execute, depending on the
+user'sinput. If the user specifies the number of meals, the corresponding routine
+will be chosen, otherwise the other routine (which doesn't expect to manage the 
+number of meals) will be executed */
 void	start_philosopher_routine(pthread_t *philosophers,
 			t_input input, t_thread_pmt *thread_pmt)
 {
