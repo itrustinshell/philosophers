@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "philo.h"
-//metti i mutex destroyyy
 
 int	main(int argc, char **argv)
 {
