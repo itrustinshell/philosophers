@@ -12,6 +12,17 @@
 
 #include "philo.h"
 
+static void	eating(t_thread_pmt	*pmt)
+{
+	msg(pmt, EAT, GREEN);
+	pthread_mutex_lock(pmt->time_check);
+	pmt->last_time_execution = get_time();
+	pthread_mutex_unlock(pmt->time_check);
+	usleep(pmt->time_to_eat * 1000);
+	pthread_mutex_unlock(&(pmt->forks)[pmt->forkleft]);
+	pthread_mutex_unlock(&(pmt->forks)[pmt->forkright]);
+}
+
 static void	*routine_with_n_of_meals(void *param)
 {
 	t_thread_pmt	*pmt;
@@ -28,13 +39,7 @@ static void	*routine_with_n_of_meals(void *param)
 			both_forks_taken = take_forkleft_first(pmt);
 		if (both_forks_taken)
 		{
-			msg(param, EAT, GREEN);
-			pthread_mutex_lock(pmt->time_check);
-			pmt->last_time_execution = get_time();
-			pthread_mutex_unlock(pmt->time_check);
-			usleep(pmt->time_to_eat * 1000);
-			pthread_mutex_unlock(&(pmt->forks)[pmt->forkleft]);
-			pthread_mutex_unlock(&(pmt->forks)[pmt->forkright]);
+			eating(pmt);
 			pthread_mutex_lock(pmt->all_finish_eating);
 			if (*(pmt)->finish_for_meals == 1)
 			{
@@ -74,17 +79,6 @@ static void	*routine_with_n_of_meals(void *param)
 		pthread_mutex_unlock(pmt->meals_check);
 	}
 	return (NULL);
-}
-
-static void	eating(t_thread_pmt	*pmt)
-{
-	msg(pmt, EAT, GREEN);
-	pthread_mutex_lock(pmt->time_check);
-	pmt->last_time_execution = get_time();
-	pthread_mutex_unlock(pmt->time_check);
-	usleep(pmt->time_to_eat * 1000);
-	pthread_mutex_unlock(&(pmt->forks)[pmt->forkleft]);
-	pthread_mutex_unlock(&(pmt->forks)[pmt->forkright]);
 }
 
 static void	*routine_without_n_of_meals(void *param)
