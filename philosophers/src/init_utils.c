@@ -6,7 +6,7 @@
 /*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:04:10 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/02 12:45:27 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/02 22:21:12 by largenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 int	ft_atoi(char *str)
 {
-//	int	tmp;
-//	int	div;
 	int	result;
 	int	i;
 
@@ -73,12 +71,25 @@ void	initialize_pmt_two(t_thread_pmt *pmt, t_input input, int *is_dead,
 			pthread_mutex_t *write)
 {
 	int		i;
-	
+
 	i = 0;
 	while (i < input.n_of_phil)
 	{
 		pmt[i].write = write;
 		pmt[i].someone_is_dead = is_dead;
+		i++;
+	}
+}
+
+void	initialize_no_more(t_thread_pmt *pmt, t_input input,
+			pthread_mutex_t *no_more)
+{
+	int		i;
+
+	i = 0;
+	while (i < input.n_of_phil)
+	{
+		pmt[i].no_more = no_more;
 		i++;
 	}
 }

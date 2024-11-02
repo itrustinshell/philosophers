@@ -3,7 +3,7 @@ CC = gcc
 CFLAGS = -Wextra -Werror -Wall
 
 TARGET = philo
-SRCS = main.c validation.c philosophers.c forks.c pmt.c print.c init.c init_utils.c actions.c  actions_utils.c actions_utils_2.c actions_utils_3.c 
+SRCS = main.c validation.c routine.c philosophers.c monitor.c free.c threads_join.c forks.c pmt.c print.c init.c init_utils.c actions.c  actions_utils.c action_takefork.c 
 SRC_DIR = src
 
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)

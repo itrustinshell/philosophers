@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   threads_join.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/06 18:39:39 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/02 17:56:26 by largenzi         ###   ########.fr       */
+/*   Created: 2024/11/02 17:58:14 by largenzi          #+#    #+#             */
+/*   Updated: 2024/11/02 17:58:17 by largenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	validation_and_init(int argc, char **argv, t_input *input)
+void	threads_join(pthread_t *philosophers,
+			pthread_t monitor, t_input input)
 {
-	input_validation(argc, argv);
-	input_init(input, argv);
+	int	i;
+
+	i = 0;
+	while (i < input.n_of_phil)
+	{
+		pthread_join(philosophers[i], NULL);
+		i++;
+	}
+	pthread_join(monitor, NULL);
 }
