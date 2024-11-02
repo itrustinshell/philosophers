@@ -6,7 +6,7 @@
 /*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:42:09 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/02 10:58:40 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/02 12:55:13 by largenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	philosophers_join(pthread_t *philosophers,
 	pthread_join(monitor, NULL);
 }
 
-void	free_everything(pthread_mutex_t *forks_array,
+void	free_everything(t_fork *forks_array,
 		t_thread_pmt *pmt_array, pthread_t *philosophers)
 {
 	free(pmt_array->write);
@@ -52,7 +52,8 @@ void	last_print(t_thread_pmt	*pmt_array, t_input *input)
 int	main(int argc, char **argv)
 {
 	t_input			input;
-	pthread_mutex_t	*forks_array;
+//	pthread_mutex_t	*forks_array;
+	t_fork			*forks_array;
 	pthread_t		*philosophers;
 	pthread_t		monitor;
 	t_thread_pmt	*pmt_array;

@@ -26,7 +26,7 @@ void	chose_routine(t_input input, pthread_t *philosophers,
 	}
 }
 
-pthread_t	*create_philosophers(t_input input, pthread_mutex_t *forks_array,
+pthread_t	*create_philosophers(t_input input, t_fork *forks_array,
 				t_thread_pmt *pmt_array)
 {
 	pthread_t	*philosophers;
@@ -42,7 +42,7 @@ pthread_t	*create_philosophers(t_input input, pthread_mutex_t *forks_array,
 	return (philosophers);
 }
 
-pthread_t *philosophers_generation(t_input input, pthread_mutex_t *forks_array, t_thread_pmt *pmt_array)
+pthread_t *philosophers_generation(t_input input, t_fork *forks_array, t_thread_pmt *pmt_array)
 {
 	pthread_t *philosophers;
 

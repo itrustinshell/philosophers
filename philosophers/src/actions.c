@@ -6,7 +6,7 @@
 /*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:47:41 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/02 12:02:58 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/02 12:20:51 by largenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*routine_with_n_of_meals(void *param)
 
 	pmt = (t_thread_pmt *)param;
 	n_of_meals = 0;
-	while (*(pmt)->someone_is_dead == 0 && (n_of_meals < pmt->n_of_meals))
+	while (*(pmt)->someone_is_dead == NO && (n_of_meals < pmt->n_of_meals))
 	{
 		if (pmt->id % 2 == 0)
 			both_forks = take_forkright_first(pmt);
@@ -38,7 +38,6 @@ void	*routine_with_n_of_meals(void *param)
 void	*routine_without_n_of_meals(void *param)
 {
 	t_thread_pmt	*pmt;
-//	int				both_forks;
 
 	pmt = (t_thread_pmt *)param;
 	while (1)

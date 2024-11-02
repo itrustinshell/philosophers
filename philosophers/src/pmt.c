@@ -1,6 +1,6 @@
 #include "philo.h"
 
-static t_thread_pmt	*create_pmtarray(int n_of_phil, pthread_mutex_t *forks_array)
+static t_thread_pmt	*create_pmtarray(int n_of_phil, t_fork *forks_array)
 {
 	t_thread_pmt	*thread_pmt;
 
@@ -13,7 +13,7 @@ static t_thread_pmt	*create_pmtarray(int n_of_phil, pthread_mutex_t *forks_array
 	return (thread_pmt);
 }
 
-static void	pmt_array_init(t_thread_pmt *pmt, pthread_mutex_t *forks,
+static void	pmt_array_init(t_thread_pmt *pmt, t_fork *forks,
 		t_input input)
 {
 	pthread_mutex_t	*death_check;
@@ -34,7 +34,7 @@ static void	pmt_array_init(t_thread_pmt *pmt, pthread_mutex_t *forks,
 	initialize_pmt_three(pmt, input, death_check);
 }
 
-t_thread_pmt	*pmt_generation(t_input input, pthread_mutex_t *forks_array)
+t_thread_pmt	*pmt_generation(t_input input, t_fork *forks_array)
 	{
 		t_thread_pmt *pmt_array;
 

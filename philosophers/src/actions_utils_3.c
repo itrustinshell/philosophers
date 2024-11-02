@@ -6,7 +6,7 @@
 /*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 13:57:26 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/01 21:52:41 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/02 13:09:27 by largenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void	eating(t_thread_pmt *param)
 	param->last_time_execution = get_time();
 	msg(param, EAT, GREEN);
 	usleep(param->time_to_eat * 1000);
-	pthread_mutex_unlock(&(param->forks)[param->forkleft]);
-	pthread_mutex_unlock(&(param->forks)[param->forkright]);
+	pthread_mutex_unlock(&(param->forks)[param->forkleft].forklock);
+	pthread_mutex_unlock(&(param->forks)[param->forkright].forklock);
 }
 
 int	eat_sleep_think(t_thread_pmt	*pmt, int both_forks)
