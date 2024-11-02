@@ -6,7 +6,7 @@
 /*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:42:09 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/01 23:09:12 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/02 10:58:40 by largenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,13 @@ int	main(int argc, char **argv)
 	forks_array = forks_generation(input);
 	pmt_array = pmt_generation(input, forks_array);
 
+	philosophers = philosophers_generation(input, forks_array, pmt_array);
 
-	philosophers = create_philosophers(input, forks_array, pmt_array);
 	pthread_create(&monitor, NULL, monitor_routine, (void *)&pmt_array[0]);
-	chose_routine(input, philosophers, pmt_array);
+	
 	philosophers_join(philosophers, monitor, input);
 	last_print(pmt_array, &input);
+	
 	free_everything(forks_array, pmt_array, philosophers);
 	if (argc == 6 && (input.someone_is_dead != 1
 			|| input.no_more_to_print != 1))

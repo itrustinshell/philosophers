@@ -6,7 +6,7 @@
 /*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:49:44 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/01 23:10:27 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/02 11:45:16 by largenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@
 # define SLEEP "is sleeping"
 # define EAT "is eating"
 # define DIED "died"
+# define LOCKED 0
+# define UNLOCKED 1
+# define EVEN 0
+# define YES 1
 
 # define BLUE    "\033[1;34m"
 # define PURPLE  "\033[1;35m"
@@ -94,6 +98,7 @@ pthread_mutex_t  *forks_generation(t_input input);
 t_thread_pmt	*pmt_generation(t_input input, pthread_mutex_t *foks_array);
 
 
+pthread_t *philosophers_generation(t_input input, pthread_mutex_t *forks_array, t_thread_pmt *pmt_array);
 
 //create_malloc
 pthread_t		*create_philosophers(t_input input,

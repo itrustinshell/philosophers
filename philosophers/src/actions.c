@@ -6,7 +6,7 @@
 /*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:47:41 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/01 14:08:41 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/02 12:02:58 by largenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,28 +38,21 @@ void	*routine_with_n_of_meals(void *param)
 void	*routine_without_n_of_meals(void *param)
 {
 	t_thread_pmt	*pmt;
-//	int				forkleft;
-//	int				forkright;
-	int				both_forks;
-//	int				n_of_meals;
+//	int				both_forks;
 
 	pmt = (t_thread_pmt *)param;
 	while (1)
 	{
-		if (pmt->id % 2 == 0)
-			both_forks = take_forkright_first(pmt);
+		if (pmt->id % 2 == EVEN)
+			take_forkright_first(pmt);
 		else
-			both_forks = take_forkleft_first(pmt);
-		if (both_forks == 0)
-		{
-			eating(pmt);
-			if (*(pmt)->someone_is_dead == 1)
-				return (NULL);
-			sleeping(pmt);
-			thinking(pmt);
-		}
-		else
-			return (NULL);
+			take_forkleft_first(pmt);
+	//in tkae fork action there are mutex...so at the end the part of the following code will be executed only when all witing time for m mutex are resolved and both forks are taken.
+		eating(pmt);
+		if (*(pmt)->someone_is_dead == YES)
+			break;
+		sleeping(pmt);
+		thinking(pmt);
 	}
 	return (NULL);
 }

@@ -17,7 +17,7 @@ void	chose_routine(t_input input, pthread_t *philosophers,
 	}
 	else
 	{
-		while ( i < input.n_of_phil)
+		while (i < input.n_of_phil)
 		{
 			pthread_create(&philosophers[i], NULL,
 					routine_with_n_of_meals, (void *)&thread_pmt[i]);
@@ -25,7 +25,6 @@ void	chose_routine(t_input input, pthread_t *philosophers,
 		}
 	}
 }
-
 
 pthread_t	*create_philosophers(t_input input, pthread_mutex_t *forks_array,
 				t_thread_pmt *pmt_array)
@@ -40,5 +39,14 @@ pthread_t	*create_philosophers(t_input input, pthread_mutex_t *forks_array,
 		free(pmt_array);
 		exit (1);
 	}
+	return (philosophers);
+}
+
+pthread_t *philosophers_generation(t_input input, pthread_mutex_t *forks_array, t_thread_pmt *pmt_array)
+{
+	pthread_t *philosophers;
+
+	philosophers = create_philosophers(input, forks_array, pmt_array);
+	chose_routine(input, philosophers, pmt_array);
 	return (philosophers);
 }
