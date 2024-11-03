@@ -6,7 +6,7 @@
 /*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:47:41 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/03 18:23:04 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/03 22:35:29 by largenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	*routine_with_n_of_meals(void *param)
 void	*routine_without_n_of_meals(void *param)
 {
 	t_thread_pmt	*pmt;
-	int a;
+
 	pmt = (t_thread_pmt *)param;
 	while (1)
 	{
@@ -57,15 +57,13 @@ void	*routine_without_n_of_meals(void *param)
 		else
 			take_forkleft_first(pmt);
 //		eating(pmt);
-		a = pthread_mutex_lock(pmt->mutexdeath);
+		pthread_mutex_lock(pmt->mutexdeath);
 		if (*(pmt)->someonediedptr == YES)
 		{
-			if (a == 0)
-				pthread_mutex_unlock(pmt->mutexdeath);
+			pthread_mutex_unlock(pmt->mutexdeath);
 			break ;
 		}
-		if (a == 0)
-			pthread_mutex_unlock(pmt->mutexdeath);
+		pthread_mutex_unlock(pmt->mutexdeath);
 		sleeping(pmt);
 		thinking(pmt);
 	}

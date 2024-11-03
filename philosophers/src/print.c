@@ -6,12 +6,13 @@
 /*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 17:57:24 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/03 20:07:26 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/03 23:42:08 by largenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-/*
+
+
 int	print_if_die(t_thread_pmt	*pmt, int i, long time)
 {
 	int a;
@@ -34,7 +35,7 @@ int	print_if_die(t_thread_pmt	*pmt, int i, long time)
 	}
 	return (1);
 }
-*/
+
 /*
 void	last_print(t_thread_pmt	*pmtarray, t_input *input)
 {
