@@ -6,7 +6,7 @@
 /*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 17:56:37 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/03 10:37:47 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/03 13:23:31 by largenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,20 +93,21 @@ static void mutex_init(t_thread_pmt *pmtarray, t_input input)
 /*Initializzation function. This function calls all the previous.
  This separation has been done becouse of semplicity, clarity and
  Norm*/
-static void	pmtarray_init(t_thread_pmt *pmtarray, t_fork *forks,
+static void	pmtarray_init(t_thread_pmt *pmtarray, t_fork *forksarray,
 		t_input input)
 {
-	generalpmtarray_init(pmtarray, input, forks);
+	generalpmtarray_init(pmtarray, input, forksarray);
 	controlvar_init(pmtarray, input);
 	mutex_init(pmtarray, input);
 }
 
 /*Create pmtarray (dinamically allocating memory) and initialize it.*/
-t_thread_pmt	*pmtarray_generate(t_input input, t_fork *forks_array)
+t_thread_pmt	*pmtarray_generate(t_input input, t_fork *forksarray)
 {
 	t_thread_pmt	*pmtarray;
 	
 	pmtarray = (t_thread_pmt *)malloc(input.n_of_phil * sizeof(t_thread_pmt));
-	pmtarray_init(pmtarray, forks_array, input);
+	pmtarray_init(pmtarray, forksarray, input);
 	return (pmtarray);
 }
+

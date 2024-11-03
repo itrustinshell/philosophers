@@ -6,7 +6,7 @@
 /*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:55:42 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/03 10:25:56 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/03 18:31:28 by largenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,23 @@ long	get_time(void)
 void	msg(t_thread_pmt *param, char *message)
 {
 	long	time;
+	int a;
+	int b;
 
-	pthread_mutex_lock(param->mutexdeath);
+	a = pthread_mutex_lock(param->mutexwrite);
+	b = pthread_mutex_lock(param->mutexdeath);
 	if (*(param)->someonediedptr == YES)
 	{
-		pthread_mutex_unlock(param->mutexdeath);
+		if (a == 0)
+			a = pthread_mutex_unlock(param->mutexwrite);
+		if (b == 0)
+			b = pthread_mutex_unlock(param->mutexdeath);
 		return ;
 	}
-	pthread_mutex_unlock(param->mutexdeath);
+	if (b == 0)
+		b = pthread_mutex_unlock(param->mutexdeath);
 	time = get_time() - param->start_simulation;
-	pthread_mutex_lock(param->mutexwrite);
 	printf("%ld %d %s\n", time, param->id, message);
-	pthread_mutex_unlock(param->mutexwrite);
+	if (a == 0)
+		a = pthread_mutex_unlock(param->mutexwrite);
 }

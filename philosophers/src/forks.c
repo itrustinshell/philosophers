@@ -6,7 +6,7 @@
 /*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 17:49:51 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/03 09:17:38 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/03 13:14:47 by largenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,22 @@
 
 static t_fork	*create_forksarray(int n_of_phil)
 {
-	t_fork	*forks;
+	t_fork	*forksarray;
 
-	forks = (t_fork *)malloc(n_of_phil * sizeof(t_fork));
-	if (!forks)
-		return (0);
-	return (forks);
+	forksarray = (t_fork *)malloc(n_of_phil * sizeof(t_fork));
+	return (forksarray);
 }
 
-static void	initialize_forksarray(t_fork *forks, int n_of_phil)
+static void	initialize_forksarray(t_fork *forksarray, int n_of_phil)
 {
 	int	i;
 
 	i = 0;
 	while (i < n_of_phil)
 	{
-		pthread_mutex_init(&forks[i].forklock, NULL);
-		forks[i].id = i + 1;
-		forks[i].status = UNLOCKED;
+		pthread_mutex_init(&forksarray[i].forklock, NULL);
+		forksarray[i].id = i + 1;
+		forksarray[i].status = UNLOCKED;
 		i++;
 	}
 }

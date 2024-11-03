@@ -6,7 +6,7 @@
 /*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:49:44 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/03 12:00:34 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/03 19:50:23 by largenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 # include <stdarg.h>
 # include <errno.h>
 
-# define TAKE_FORK "has taken a fork"
+# define TAKE_FIRST_FORK "has taken 1 fork"
+# define TAKE_SECOND_FORK "has taken 2 fork"
 # define THINK "is thinking"
 # define SLEEP "is sleeping"
 # define EAT "is eating"
@@ -128,8 +129,8 @@ int				print_if_die(t_thread_pmt	*pmt, int i, long time);
 long			get_time(void);
 void			msg(t_thread_pmt *param, char *message);
 
-void			take_forkleft_first(t_thread_pmt *pmt);
-void			take_forkright_first(t_thread_pmt *pmt);
+int			take_forkleft_first(t_thread_pmt *pmt);
+int			take_forkright_first(t_thread_pmt *pmt);
 
 //actions_utils_3
 void			sleeping(t_thread_pmt *param);

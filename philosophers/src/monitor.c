@@ -6,7 +6,7 @@
 /*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 17:51:54 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/02 21:45:27 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/03 20:16:40 by largenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	*monitor_routine(void *param)
 
 */
 
-int	check_monitor(int another_philosopher_finish_to_eat, t_thread_pmt	*pmt)
+int	check_monitor(int another_philosopher_finish_to_eat, t_thread_pmt *pmt)
 {
 	int		i;
 	long	time;
@@ -68,8 +68,13 @@ int	check_monitor(int another_philosopher_finish_to_eat, t_thread_pmt	*pmt)
 				continue ;
 			}
 			time = get_time() - pmt[i].last_time_execution;
-			if (!print_if_die(pmt, i, time))
-				return (0);
+			if (time > pmt[i].time_to_die)
+			{
+				pthread_mutex_lock(pmt->mutexdeath);
+				*pmt[i].someonediedptr = 1;
+				pthread_mutex_unlock(pmt->mutexdeath);
+				return(0);
+			}
 			i++;
 		}
 	}
