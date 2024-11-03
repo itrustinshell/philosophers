@@ -6,7 +6,7 @@
 /*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:42:09 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/02 22:22:05 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/03 09:27:27 by largenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,11 @@ int	main(int argc, char **argv)
 
 	input_validation(argc, argv);
 	input_init(&input, argv);
-	forks_array = forks_generation(input);
-	pmt_array = pmt_generation(input, forks_array);
-	philosophers = philosophers_generation(input, forks_array, pmt_array);
+	forks_array = forks_generate(input);
+
+	pmt_array = pmtarray_generate(input, forks_array);
+	
+	philosophers = philosophers_generate(input, forks_array, pmt_array);
 	pthread_create(&monitor, NULL, monitor_routine, (void *)&pmt_array[0]);
 	threads_join(philosophers, monitor, input);
 	last_print(pmt_array, &input);

@@ -6,7 +6,7 @@
 /*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 17:49:51 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/02 17:50:12 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/03 09:17:38 by largenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	initialize_forksarray(t_fork *forks, int n_of_phil)
 	}
 }
 
-t_fork	*forks_generation(t_input input)
+t_fork	*forks_generate(t_input input)
 {
 	t_fork	*forks_array;
 

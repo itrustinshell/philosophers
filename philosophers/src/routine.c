@@ -6,7 +6,7 @@
 /*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:47:41 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/02 21:29:57 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/03 10:21:29 by largenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ void	*routine_with_n_of_meals(void *param)
 		else
 			take_forkleft_first(pmt);
 		eating(pmt);
-		pthread_mutex_lock(pmt->death_check);
-		if (*(pmt)->someone_is_dead == YES)
+		pthread_mutex_lock(pmt->mutexdeath);
+		if (*(pmt)->someonediedptr == YES)
 		{
-			pthread_mutex_unlock(pmt->death_check);
+			pthread_mutex_unlock(pmt->mutexdeath);
 			break ;
 		}
-		pthread_mutex_unlock(pmt->death_check);
+		pthread_mutex_unlock(pmt->mutexdeath);
 		sleeping(pmt);
 		thinking(pmt);
 		n_of_meals++;
@@ -54,13 +54,13 @@ void	*routine_without_n_of_meals(void *param)
 		else
 			take_forkleft_first(pmt);
 		eating(pmt);
-		pthread_mutex_lock(pmt->death_check);
-		if (*(pmt)->someone_is_dead == YES)
+		pthread_mutex_lock(pmt->mutexdeath);
+		if (*(pmt)->someonediedptr == YES)
 		{
-			pthread_mutex_unlock(pmt->death_check);
+			pthread_mutex_unlock(pmt->mutexdeath);
 			break ;
 		}
-		pthread_mutex_unlock(pmt->death_check);
+		pthread_mutex_unlock(pmt->mutexdeath);
 		sleeping(pmt);
 		thinking(pmt);
 	}

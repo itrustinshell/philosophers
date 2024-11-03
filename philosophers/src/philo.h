@@ -6,7 +6,7 @@
 /*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:49:44 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/02 22:21:36 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/03 10:29:12 by largenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,18 @@ typedef struct s_fork
 typedef struct s_thread_param
 {
 	t_fork			*forks;
-	pthread_mutex_t	*death_check;
-	pthread_mutex_t	*write;
-	pthread_mutex_t	*meals_check;
-	pthread_mutex_t	*no_more;
+	pthread_mutex_t	*mutexdeath;
+	pthread_mutex_t	*mutexwrite;
+	pthread_mutex_t	*mutexmeals;
+	pthread_mutex_t	*mutexfinishprint;
+	int				*someonediedptr;
+	int				*finishprintptr;
 	int				number_of_philo;
 	int				forkleft;
 	int				forkright;
 	int				id;
 	int				n_of_meals;
-	int				*someone_is_dead;
 	int				all_meals_eaten;
-	int				*no_more_to_print;
 	long			start_simulation;
 	long			last_time_execution;
 	long			time_to_eat;
@@ -99,17 +99,16 @@ void			input_validation(int argc, char **argv);\
 void			validation_and_init(int argc, char **argv, t_input *input);
 
 //forks
-t_fork			*forks_generation(t_input input);
+t_fork			*forks_generate(t_input input);
 
 //pmt
-t_thread_pmt	*pmt_generation(t_input input, t_fork *foks_array);
-pthread_t		*philosophers_generation(t_input input,
+t_thread_pmt	*pmtarray_generate(t_input input, t_fork *foks_array);
+
+//philosophers
+pthread_t		*philosophers_generate(t_input input,
 					t_fork *forks_array, t_thread_pmt *pmt_array);
 
 //create_malloc
-pthread_t		*create_philosophers(t_input input,
-					t_fork *forks_array,
-					t_thread_pmt *pmt_array);
 void			threads_join(pthread_t *philosophers,
 					pthread_t monitor, t_input input);
 
@@ -117,8 +116,6 @@ void			threads_join(pthread_t *philosophers,
 void			*routine_with_n_of_meals(void *param);
 void			*routine_without_n_of_meals(void *param);
 void			*monitor_routine(void *param);
-void			chose_routine(t_input input, pthread_t *philosophers,
-					t_thread_pmt *pmt_array);
 
 //actions_utils
 long			milliseconds(struct timeval current_time);
@@ -142,14 +139,6 @@ void			philosophers_init(pthread_t *philosophers, t_input input,
 					void*(*f)(void *), t_thread_pmt *thread_pmt);
 //init_utils
 int				ft_atoi(char *str);
-void			initialize_pmt_one(t_thread_pmt *pmt, t_input input,
-					t_fork *forks, int *no_more_to_print);
-void			initialize_pmt_two(t_thread_pmt *pmt, t_input input,
-					int *is_dead, pthread_mutex_t *write);
-void			initialize_pmt_three(t_thread_pmt *pmt,
-					t_input input, pthread_mutex_t *death_check);
-void			initialize_no_more(t_thread_pmt *pmt, t_input input,
-					pthread_mutex_t *no_more);
 void			last_print(t_thread_pmt	*pmt_array, t_input *input);
 void			free_everything(t_fork *forks_array,
 					t_thread_pmt *pmt_array, pthread_t *philosophers);

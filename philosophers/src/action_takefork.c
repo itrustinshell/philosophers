@@ -6,7 +6,7 @@
 /*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:11:55 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/02 21:42:36 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/03 10:27:14 by largenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	take_forkleft_first(t_thread_pmt *pmt)
 	{
 		pthread_mutex_unlock(&pmt->forks[pmt->forkleft].forklock);
 		pmt->forks[pmt->forkleft].status = UNLOCKED;
-		pthread_mutex_lock(pmt->death_check);
-		*(pmt)->someone_is_dead = YES;
-		pthread_mutex_unlock(pmt->death_check);
+		pthread_mutex_lock(pmt->mutexdeath);
+		*(pmt)->someonediedptr = YES;
+		pthread_mutex_unlock(pmt->mutexdeath);
 		return ;
 	}
 	pthread_mutex_lock(&pmt->forks[pmt->forkright].forklock);
@@ -55,9 +55,9 @@ void	take_forkright_first(t_thread_pmt *pmt)
 		else
 		{
 			pmt->forks[pmt->forkright].status = UNLOCKED;
-			pthread_mutex_lock(pmt->death_check);
-			*(pmt)->someone_is_dead = YES;
-			pthread_mutex_unlock(pmt->death_check);
+			pthread_mutex_lock(pmt->mutexdeath);
+			*(pmt)->someonediedptr = YES;
+			pthread_mutex_unlock(pmt->mutexdeath);
 		}
 	}
 }

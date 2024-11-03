@@ -6,13 +6,13 @@
 /*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 17:55:32 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/02 17:56:21 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/03 09:16:53 by largenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	chose_routine(t_input input, pthread_t *philosophers,
+static void	philosthreads_create(t_input input, pthread_t *philosophers,
 			t_thread_pmt *thread_pmt)
 {
 	int	i;
@@ -38,7 +38,7 @@ void	chose_routine(t_input input, pthread_t *philosophers,
 	}
 }
 
-pthread_t	*create_philosophers(t_input input, t_fork *forks_array,
+static pthread_t	*philosophers_create(t_input input, t_fork *forks_array,
 				t_thread_pmt *pmt_array)
 {
 	pthread_t	*philosophers;
@@ -54,12 +54,12 @@ pthread_t	*create_philosophers(t_input input, t_fork *forks_array,
 	return (philosophers);
 }
 
-pthread_t	*philosophers_generation(t_input input, t_fork *forks_array,
+pthread_t	*philosophers_generate(t_input input, t_fork *forks_array,
 				t_thread_pmt *pmt_array)
 {
 	pthread_t	*philosophers;
 
-	philosophers = create_philosophers(input, forks_array, pmt_array);
-	chose_routine(input, philosophers, pmt_array);
+	philosophers = philosophers_create(input, forks_array, pmt_array);
+	philosthreads_create(input, philosophers, pmt_array);
 	return (philosophers);
 }
