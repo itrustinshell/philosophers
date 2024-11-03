@@ -6,7 +6,7 @@
 /*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:47:41 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/03 10:21:29 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/03 12:21:26 by largenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	*routine_with_n_of_meals(void *param)
 		thinking(pmt);
 		n_of_meals++;
 	}
-	//if (n_of_meals >= pmt->n_of_meals)
-	//	pmt->all_meals_eaten = YES;
+	if (n_of_meals >= pmt->n_of_meals)
+		pmt->all_meals_eaten = YES;
 	return (NULL);
 }
 
