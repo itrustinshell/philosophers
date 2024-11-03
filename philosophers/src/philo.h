@@ -6,7 +6,7 @@
 /*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:49:44 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/03 10:29:12 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/03 12:00:34 by largenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@
 # define RED     "\033[1;31m"
 # define RESET   "\033[0m"
 
+# define BAD_INPUT 0
+# define VALID_INPUT 1
+# define UNSUCCESSFUL_VALIDATION 0
+# define SUCCESSFUL_VALIDATION 1
+# define CLOSE_PROGRAM -1
 # define LOCKED 1
 # define UNLOCKED 0
 # define EVEN 0
@@ -43,7 +48,7 @@
 # define NO 0
 # define FORK_HAS_TAKEN 1
 # define FORK_HAS_RELEASED 0
-
+# define NO_MEALS_HAVE_BEEN_SPECIFIED 0
 enum e_state
 {
 	i_ate_all_meals,
@@ -94,8 +99,7 @@ typedef struct s_thread_param
 }	t_thread_pmt;
 
 //validation
-void			check_numbers(int argc, char **argv);
-void			input_validation(int argc, char **argv);\
+int				input_validation(int argc, char **argv);
 void			validation_and_init(int argc, char **argv, t_input *input);
 
 //forks

@@ -6,7 +6,7 @@
 /*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:42:09 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/03 09:27:27 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/03 11:08:11 by largenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int	main(int argc, char **argv)
 	pthread_t		monitor;
 	t_thread_pmt	*pmt_array;
 
-	input_validation(argc, argv);
+	if(input_validation(argc, argv) == UNSUCCESSFUL_VALIDATION)
+		return (CLOSE_PROGRAM);
 	input_init(&input, argv);
 	forks_array = forks_generate(input);
 
