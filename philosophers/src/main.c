@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:42:09 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/03 20:04:19 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/04 23:55:55 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,23 @@
 int	main(int argc, char **argv)
 {
 	t_input			input;
-	t_fork			*forks_array;
+	t_fork			*forksarray;
 	pthread_t		*philosophers;
 	pthread_t		monitor;
-	t_thread_pmt	*pmt_array;
+	t_thread_pmt	*pmtarray;
 
 	if(input_validation(argc, argv) == UNSUCCESSFUL_VALIDATION)
 		return (CLOSE_PROGRAM);
 	input_init(&input, argv);
-	forks_array = forks_generate(input);
-	pmt_array = pmtarray_generate(input, forks_array);
-	philosophers = philosophers_generate(input, forks_array, pmt_array);
-	pthread_create(&monitor, NULL, monitor_routine, (void *)&pmt_array[0]);
+	forksarray = forks_generate(input);
+
+	pmtarray = pmtarray_generate(input, forksarray);
+	philosophers = philosophers_generate(input, forksarray, pmtarray);
+	pthread_create(&monitor, NULL, monitor_routine, (void *)&pmtarray[0]);
 	threads_join(philosophers, monitor, input);
+	mutexdestroy(pmtarray);	
 	//last_print(pmt_array, &input);
-	free_everything(forks_array, pmt_array, philosophers);
+	free_everything(forksarray, pmtarray, philosophers);
 	/*if (argc == 6 && (input.someone_is_dead != 1
 			|| input.no_more_to_print != 1))
 		printf("All philosophers have eaten the expected meals!\n");

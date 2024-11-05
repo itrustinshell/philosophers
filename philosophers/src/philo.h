@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:49:44 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/03 19:50:23 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/04 23:55:52 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,9 @@ typedef struct s_fork
 typedef struct s_thread_param
 {
 	t_fork			*forks;
+	pthread_mutex_t *mutextime;
+	pthread_mutex_t *mutexttd;
+
 	pthread_mutex_t	*mutexdeath;
 	pthread_mutex_t	*mutexwrite;
 	pthread_mutex_t	*mutexmeals;
@@ -144,8 +147,10 @@ void			philosophers_init(pthread_t *philosophers, t_input input,
 					void*(*f)(void *), t_thread_pmt *thread_pmt);
 //init_utils
 int				ft_atoi(char *str);
-void			last_print(t_thread_pmt	*pmt_array, t_input *input);
+void			last_print(t_thread_pmt	*pmtarray, t_input *input);
 void			free_everything(t_fork *forks_array,
-					t_thread_pmt *pmt_array, pthread_t *philosophers);
+					t_thread_pmt *pmtarray, pthread_t *philosophers);
+void			mutexdestroy(t_thread_pmt *pmtarray);
+
 
 #endif

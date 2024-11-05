@@ -61,7 +61,7 @@ void	*routine_without_n_of_meals(void *param)
 		if (*(pmt)->someonediedptr == YES)
 		{
 			pthread_mutex_unlock(pmt->mutexdeath);
-			break ;
+			return NULL ;
 		}
 		pthread_mutex_unlock(pmt->mutexdeath);
 		sleeping(pmt);

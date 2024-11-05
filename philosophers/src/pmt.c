@@ -22,13 +22,14 @@ static void	generalpmtarray_init(t_thread_pmt *pmt, t_input input,
 
 	start_simulation = get_time();
 	i = 0;
-	while (i < input.n_of_phil)
+	while (i < (input.n_of_phil + 1))
 	{
 		pmt[i].id = i + 1;
 		pmt[i].forks = forks;
 		pmt[i].start_simulation = start_simulation;
 		pmt[i].last_time_execution = start_simulation;
 		pmt[i].number_of_philo = input.n_of_phil;
+		//for thread only tbd
 		pmt[i].time_to_die = input.time_to_die;
 		pmt[i].time_to_eat = input.time_to_eat;
 		pmt[i].time_to_sleep = input.time_to_sleep;
@@ -57,7 +58,7 @@ static void	controlvar_init(t_thread_pmt *pmtarray, t_input input)
 	*finishprintvar = 0;
 
 	i = 0;
-	while (i < input.n_of_phil)
+	while (i < (input.n_of_phil + 1))
 	{
 		pmtarray[i].someonediedptr = someonediedvar;
 		pmtarray[i].finishprintptr = finishprintvar;
@@ -73,19 +74,27 @@ static void mutex_init(t_thread_pmt *pmtarray, t_input input)
 	pthread_mutex_t	*mutexdeath;
 	pthread_mutex_t	*mutexwrite;
 	pthread_mutex_t	*mutexfinishprint;
-
+	pthread_mutex_t	*mutextime;
+	pthread_mutex_t	*mutexttd;
 	mutexdeath = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 	mutexwrite = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 	mutexfinishprint = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+	mutextime = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+	mutexttd = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 	pthread_mutex_init(mutexdeath, NULL);
 	pthread_mutex_init(mutexwrite, NULL);
 	pthread_mutex_init(mutexfinishprint, NULL);
+	pthread_mutex_init(mutextime, NULL);
+	pthread_mutex_init(mutexttd, NULL);
+
 	i = 0;
-	while (i < input.n_of_phil)
+	while (i < (input.n_of_phil + 1))
 	{
 		pmtarray[i].mutexdeath = mutexdeath;
 		pmtarray[i].mutexwrite = mutexwrite;
 		pmtarray[i].mutexfinishprint = mutexfinishprint;
+		pmtarray[i].mutextime = mutextime;
+		pmtarray[i].mutexttd= mutexttd;
 		i++;
 	}
 }
@@ -101,12 +110,12 @@ static void	pmtarray_init(t_thread_pmt *pmtarray, t_fork *forksarray,
 	mutex_init(pmtarray, input);
 }
 
-/*Create pmtarray (dinamically allocating memory) and initialize it.*/
+/*Create pmtarray (dinamically allocating memory) and initialize it. You malloc one more element for monitor*/
 t_thread_pmt	*pmtarray_generate(t_input input, t_fork *forksarray)
 {
 	t_thread_pmt	*pmtarray;
 	
-	pmtarray = (t_thread_pmt *)malloc(input.n_of_phil * sizeof(t_thread_pmt));
+	pmtarray = (t_thread_pmt *)malloc((input.n_of_phil + 1) * sizeof(t_thread_pmt));
 	pmtarray_init(pmtarray, forksarray, input);
 	return (pmtarray);
 }

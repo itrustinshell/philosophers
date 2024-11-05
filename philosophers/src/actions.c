@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 13:57:26 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/03 19:52:36 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/04 23:50:01 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ void	thinking(t_thread_pmt *param)
 
 void	eating(t_thread_pmt *param)
 {
+	pthread_mutex_lock(param->mutextime);
 	param->last_time_execution = get_time();
+	pthread_mutex_unlock(param->mutextime);
 	msg(param, EAT);
 	usleep(param->time_to_eat * 1000);
 }

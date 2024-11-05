@@ -12,129 +12,61 @@
 
 #include "philo.h"
 
-int	take_forkleft_first(t_thread_pmt *pmt)
+int take_forkleft_first(t_thread_pmt *pmt)
 {
-	pthread_mutex_lock(&pmt->forks[pmt->forkleft].forklock);
-	//pmt->forks[pmt->forkleft].status = LOCKED;
-	msg(pmt, TAKE_FIRST_FORK);
-	if (pmt->number_of_philo == 1)
-	{
-		pthread_mutex_unlock(&pmt->forks[pmt->forkleft].forklock);
-		//pmt->forks[pmt->forkleft].status = UNLOCKED;
-		pthread_mutex_lock(pmt->mutexdeath);
-		*(pmt)->someonediedptr = YES;
-		pthread_mutex_unlock(pmt->mutexdeath);
-		return (-1);
-	}
-//	pthread_mutex_lock(&pmt->forks[pmt->forkright].forklock);
-//	pmt->forks[pmt->forkright].status = LOCKED;
-	//msg(pmt, TAKE_SECOND_FORK);
-	eating(pmt);
-	//pmt->forks[pmt->forkleft].status = FORK_HAS_RELEASED;
-//	pmt->forks[pmt->forkright].status = FORK_HAS_RELEASED;
-	//pthread_mutex_unlock(&(pmt->forks)[pmt->forkright].forklock);
-	pthread_mutex_unlock(&(pmt->forks)[pmt->forkleft].forklock);
-	return (1);
+    pthread_mutex_lock(&pmt->forks[pmt->forkleft].forklock);
+    msg(pmt, TAKE_FIRST_FORK);
+
+    if (pmt->number_of_philo == 1)
+    {
+        // Handle single philosopher case
+        pthread_mutex_unlock(&pmt->forks[pmt->forkleft].forklock);
+        pthread_mutex_lock(pmt->mutexdeath);
+        *(pmt)->someonediedptr = YES;
+        pthread_mutex_unlock(pmt->mutexdeath);
+        return -1; // Cannot eat
+    }
+
+    // Lock the right fork for eating
+    pthread_mutex_lock(&pmt->forks[pmt->forkright].forklock);
+    msg(pmt, TAKE_SECOND_FORK);
+    
+    eating(pmt); // Philosopher eats
+
+    // Unlock both forks after eating
+    pthread_mutex_unlock(&pmt->forks[pmt->forkright].forklock);
+    pthread_mutex_unlock(&pmt->forks[pmt->forkleft].forklock);
+
+    return 1; // Successfully eaten
 }
 
-int	take_forkright_first(t_thread_pmt *pmt)
+int take_forkright_first(t_thread_pmt *pmt)
 {
-	(void)pmt;
-	//usleep(1);
-	//pthread_mutex_lock(&pmt->forks[pmt->forkright].forklock);
-	//pmt->forks[pmt->forkright].status = LOCKED;
-	/*msg(pmt, TAKE_FIRST_FORK);
-	if (pmt->number_of_philo == 1)
-	{
-		pthread_mutex_unlock(&pmt->forks[pmt->forkright].forklock);
-		pmt->forks[pmt->forkright].status = UNLOCKED;
-		pthread_mutex_lock(pmt->mutexdeath);
-		*(pmt)->someonediedptr = YES;
-		pthread_mutex_unlock(pmt->mutexdeath);
-		return (-1);
-	}
-	pthread_mutex_lock(&pmt->forks[pmt->forkleft].forklock);
-	pmt->forks[pmt->forkleft].status = LOCKED;
-	msg(pmt, TAKE_SECOND_FORK);
-	eating(pmt);
-	pmt->forks[pmt->forkleft].status = FORK_HAS_RELEASED;
-	pmt->forks[pmt->forkright].status = FORK_HAS_RELEASED;
-	pthread_mutex_unlock(&(pmt->forks)[pmt->forkleft].forklock);
-	pthread_mutex_unlock(&(pmt->forks)[pmt->forkright].forklock);
-*/
-	return (1);
+    pthread_mutex_lock(&pmt->forks[pmt->forkright].forklock);
+    msg(pmt, TAKE_FIRST_FORK);
+
+    if (pmt->number_of_philo == 1)
+    {
+        // Handle single philosopher case
+        pthread_mutex_unlock(&pmt->forks[pmt->forkright].forklock);
+        pthread_mutex_lock(pmt->mutexdeath);
+        *(pmt)->someonediedptr = YES;
+        pthread_mutex_unlock(pmt->mutexdeath);
+        return -1; // Cannot eat
+    }
+
+    // Lock the left fork for eating
+    pthread_mutex_lock(&pmt->forks[pmt->forkleft].forklock);
+    msg(pmt, TAKE_SECOND_FORK);
+    
+    eating(pmt); // Philosopher eats
+
+    // Unlock both forks after eating
+    pthread_mutex_unlock(&pmt->forks[pmt->forkleft].forklock);
+    pthread_mutex_unlock(&pmt->forks[pmt->forkright].forklock);
+
+    return 1; // Successfully eaten
 }
 
 
-/*
-void	take_forkleft_first(t_thread_pmt *pmt)
-{
-	if (pmt->forks[pmt->forkleft].status == UNLOCKED)
-	{
-		pthread_mutex_lock(&pmt->forks[pmt->forkleft].forklock);
-		pmt->forks[pmt->forkleft].status = LOCKED;
-		msg(pmt, TAKE_FIRST_FORK);
-		if (pmt->number_of_philo > 1)
-		{
-			if (pmt->forks[pmt->forkright].status == UNLOCKED)
-			{
-				pthread_mutex_lock(&pmt->forks[pmt->forkright].forklock);
-				pmt->forks[pmt->forkright].status = LOCKED;
-				msg(pmt, TAKE_SECOND_FORK);
-			}
-			else
-			{
-				pmt->forks[pmt->forkleft].status = UNLOCKED;
-				pthread_mutex_unlock(&pmt->forks[pmt->forkleft].forklock);
-			}
-		}
-		else
-		{
-			pmt->forks[pmt->forkleft].status = UNLOCKED;
-			pthread_mutex_unlock(&pmt->forks[pmt->forkleft].forklock);
-			pthread_mutex_lock(pmt->mutexdeath);
-			*(pmt)->someonediedptr = YES;
-			pthread_mutex_unlock(pmt->mutexdeath);
-		}
-	}
-	
-}
 
-void	take_forkright_first(t_thread_pmt *pmt)
-{
-	if (pmt->forks[pmt->forkright].status == UNLOCKED)
-	{
-		pthread_mutex_lock(&pmt->forks[pmt->forkright].forklock);
-		pmt->forks[pmt->forkright].status = LOCKED;
-		msg(pmt, TAKE_FIRST_FORK);
-		if (pmt->number_of_philo > 1)
-		{
-			if (pmt->forks[pmt->forkleft].status == UNLOCKED)
-			{
-				pthread_mutex_lock(&pmt->forks[pmt->forkleft].forklock);
-				pmt->forks[pmt->forkleft].status = LOCKED;
-				msg(pmt, TAKE_SECOND_FORK);
-				eating(pmt);
-				return;
-				//		thinking(pmt);
-		//		sleeping(pmt);
-
-			}
-			else
-			{
-				pthread_mutex_unlock(&pmt->forks[pmt->forkright].forklock);
-				pmt->forks[pmt->forkright].status = UNLOCKED;
-			}
-		}
-		else
-		{
-			pmt->forks[pmt->forkright].status = UNLOCKED;
-			pthread_mutex_unlock(&pmt->forks[pmt->forkright].forklock);
-			pthread_mutex_lock(pmt->mutexdeath);
-			*(pmt)->someonediedptr = YES;
-			pthread_mutex_unlock(pmt->mutexdeath);
-		}
-	}
-}
-
-*/
