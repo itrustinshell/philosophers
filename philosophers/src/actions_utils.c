@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:55:42 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/03 18:31:28 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/09 15:37:40 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,35 +22,29 @@ long	get_time(void)
 
 void msg(t_thread_pmt *param, char *message)
 {
-    long time;
-    int lock_write, lock_death;
+	long time;
+	int lock_write, lock_death;
 
-    lock_write = pthread_mutex_lock(param->mutexwrite);
-    if (lock_write != 0) {
-        printf("heiiiiiiiii il lock non ha funzionato\n");
-        return; 
-    }
-
-    lock_death = pthread_mutex_lock(param->mutexdeath);
-    if (lock_death != 0) {
-        pthread_mutex_unlock(param->mutexwrite);
-        // Gestisci l'errore (log, exit, ecc.)
-        return; 
-    }
-
-    if (*(param)->someonediedptr == YES)
-    {
-        pthread_mutex_unlock(param->mutexdeath);
-        pthread_mutex_unlock(param->mutexwrite);
-   
-        return;
+	lock_write = pthread_mutex_lock(param->mutexwrite);
+	if (lock_write != 0)
+	{
+		printf("heiiiiiiiii il lock non ha funzionato\n");
+		return ; 
 	}
-
-    time = get_time() - param->start_simulation;
-    printf("%ld %d %s\n", time, param->id, message);
-
-    pthread_mutex_unlock(param->mutexdeath);
-    pthread_mutex_unlock(param->mutexwrite);
+	lock_death = pthread_mutex_lock(param->mutexdeath);
+	if (lock_death != 0)
+	{
+		pthread_mutex_unlock(param->mutexwrite);
+		return ;
+	}
+	if (*(param)->someonediedptr == YES)
+	{
+		pthread_mutex_unlock(param->mutexdeath);
+		pthread_mutex_unlock(param->mutexwrite);
+		return ;
+	}
+	time = get_time() - param->start_simulation;
+	printf("%ld %d %s\n", time, param->id, message);
+	pthread_mutex_unlock(param->mutexdeath);
+	pthread_mutex_unlock(param->mutexwrite);
 }
-
-

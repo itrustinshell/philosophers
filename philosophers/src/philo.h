@@ -83,10 +83,11 @@ typedef struct s_thread_param
 
 	pthread_mutex_t	*mutexdeath;
 	pthread_mutex_t	*mutexwrite;
-	pthread_mutex_t	*mutexmeals;
+	pthread_mutex_t	*mutexmeal;
 	pthread_mutex_t	*mutexfinishprint;
 	int				*someonediedptr;
 	int				*finishprintptr;
+	int				*philo_who_finished_to_eat;
 	int				number_of_philo;
 	int				forkleft;
 	int				forkright;

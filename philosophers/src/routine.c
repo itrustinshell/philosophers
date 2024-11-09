@@ -16,7 +16,6 @@ void	*routine_with_n_of_meals(void *param)
 {
 	t_thread_pmt	*pmt;
 	int				n_of_meals;
-	int a;
 
 	pmt = (t_thread_pmt *)param;
 	n_of_meals = 0;
@@ -26,22 +25,24 @@ void	*routine_with_n_of_meals(void *param)
 			take_forkright_first(pmt);
 		else
 			take_forkleft_first(pmt);
-		eating(pmt);
-		a = pthread_mutex_lock(pmt->mutexdeath);
+		n_of_meals++;
+		if (n_of_meals == pmt->n_of_meals) //n_of_meals starts from zero
+		{
+			pthread_mutex_lock(pmt->mutexmeal);
+			*(pmt)->philo_who_finished_to_eat += 1;
+			pthread_mutex_unlock(pmt->mutexmeal);
+			return NULL;
+		}
+		pthread_mutex_lock(pmt->mutexdeath);
 		if (*(pmt)->someonediedptr == YES)
 		{
-			if (a == 0)
-				pthread_mutex_unlock(pmt->mutexdeath);
-			break ;
-		}
-		if (a == 0)
 			pthread_mutex_unlock(pmt->mutexdeath);
+			return NULL ;
+		}
+		pthread_mutex_unlock(pmt->mutexdeath);
 		sleeping(pmt);
 		thinking(pmt);
-		n_of_meals++;
 	}
-	if (n_of_meals >= pmt->n_of_meals)
-		pmt->all_meals_eaten = YES;
 	return (NULL);
 }
 
@@ -56,7 +57,6 @@ void	*routine_without_n_of_meals(void *param)
 			take_forkright_first(pmt);
 		else
 			take_forkleft_first(pmt);
-//		eating(pmt);
 		pthread_mutex_lock(pmt->mutexdeath);
 		if (*(pmt)->someonediedptr == YES)
 		{

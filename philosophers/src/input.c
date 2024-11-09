@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: largenzi <largenzi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:04:10 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/03 12:00:14 by largenzi         ###   ########.fr       */
+/*   Updated: 2024/11/09 15:40:42 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	input_validation(int argc, char **argv)
 		return (UNSUCCESSFUL_VALIDATION);
 	if (is_n_respectinglimits(argv) == NO)
 		return (UNSUCCESSFUL_VALIDATION);
-	return (SUCCESSFUL_VALIDATION);	
+	return (SUCCESSFUL_VALIDATION);
 }
 
 void	input_init(t_input *input, char **argv)
@@ -97,4 +97,3 @@ void	input_init(t_input *input, char **argv)
 	else
 		input->n_of_meals = NO_MEALS_HAVE_BEEN_SPECIFIED;
 }
-
