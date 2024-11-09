@@ -6,7 +6,7 @@
 /*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 17:56:37 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/09 15:43:53 by ubuntu           ###   ########.fr       */
+/*   Updated: 2024/11/09 18:52:59 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static void	generalpmtarray_init(t_thread_pmt *pmt, t_input input,
 		pmt[i].time_to_sleep = input.time_to_sleep;
 		pmt[i].forkleft = i;
 		pmt[i].forkright = ((i + 1) % input.n_of_phil);
-		pmt[i].state = alive;
 		pmt[i].n_of_meals = input.n_of_meals;
 		pmt[i].all_meals_eaten = 0;
 		i++;
@@ -44,7 +43,6 @@ static void	generalpmtarray_init(t_thread_pmt *pmt, t_input input,
 /*initialize controlvar of pmtarray.Remember that each element of 
  the pmtarray represents the "variable-set" of a specific philosopher */
 static void	controlvar_init(t_thread_pmt *pmtarray, t_input input)
-
 {
 	int				*someonediedvar;
 	int				*finishprintvar;
@@ -53,54 +51,16 @@ static void	controlvar_init(t_thread_pmt *pmtarray, t_input input)
 
 	someonediedvar = (int *)malloc(sizeof(int));
 	finishprintvar = (int *)malloc(sizeof(int));
-	philo_who_finished_to_eat = (int *)malloc(sizeof(int));	
+	philo_who_finished_to_eat = (int *)malloc(sizeof(int));
 	*someonediedvar = 0;
 	*finishprintvar = 0;
 	*philo_who_finished_to_eat = 0;
-
 	i = 0;
 	while (i < (input.n_of_phil + 1))
 	{
 		pmtarray[i].someonediedptr = someonediedvar;
 		pmtarray[i].finishprintptr = finishprintvar;
 		pmtarray[i].philo_who_finished_to_eat = philo_who_finished_to_eat;
-		i++;
-	}
-}
-
-/*Initialize mutex-fileds of pmtarray. Remember that each element of 
- the pmtarray represents the "variable-set" of a specific philosopher*/
-static void mutex_init(t_thread_pmt *pmtarray, t_input input)
-{
-	int				i;
-	pthread_mutex_t	*mutexdeath;
-	pthread_mutex_t	*mutexwrite;
-	pthread_mutex_t	*mutexfinishprint;
-	pthread_mutex_t	*mutextime;
-	pthread_mutex_t	*mutexttd;
-	pthread_mutex_t	*mutexmeal;
-
-	mutexdeath = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
-	mutexwrite = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
-	mutexfinishprint = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
-	mutextime = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
-	mutexttd = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
-	mutexmeal = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(mutexdeath, NULL);
-	pthread_mutex_init(mutexwrite, NULL);
-	pthread_mutex_init(mutexfinishprint, NULL);
-	pthread_mutex_init(mutextime, NULL);
-	pthread_mutex_init(mutexttd, NULL);
-	pthread_mutex_init(mutexmeal, NULL);
-	i = 0;
-	while (i < (input.n_of_phil + 1))
-	{
-		pmtarray[i].mutexdeath = mutexdeath;
-		pmtarray[i].mutexwrite = mutexwrite;
-		pmtarray[i].mutexfinishprint = mutexfinishprint;
-		pmtarray[i].mutextime = mutextime;
-		pmtarray[i].mutexttd = mutexttd;
-		pmtarray[i].mutexmeal = mutexmeal;
 		i++;
 	}
 }
@@ -113,7 +73,8 @@ static void	pmtarray_init(t_thread_pmt *pmtarray, t_fork *forksarray,
 {
 	generalpmtarray_init(pmtarray, input, forksarray);
 	controlvar_init(pmtarray, input);
-	mutex_init(pmtarray, input);
+	mutex_init_partone(pmtarray, input);
+	mutex_init_parttwo(pmtarray, input);
 }
 
 /*Create pmtarray (dinamically allocating memory) and initialize it.

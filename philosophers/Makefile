@@ -3,7 +3,7 @@ CC = gcc
 CFLAGS = -Wextra -Werror -Wall
 
 TARGET = philo
-SRCS = main.c destroy.c routine.c philosophers.c monitor.c free.c threads_join.c forks.c pmt.c print.c input.c actions.c  actions_utils.c action_takefork.c utils.c 
+SRCS = main.c destroy.c pmt_mutexinit.c routine.c philosophers.c monitor.c free.c threads_join.c forks.c pmt.c print.c input.c actions.c  actions_utils.c action_takefork.c utils.c 
 
 SRC_DIR = src
 

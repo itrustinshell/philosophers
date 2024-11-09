@@ -6,7 +6,7 @@
 /*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:49:44 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/04 23:55:52 by ubuntu           ###   ########.fr       */
+/*   Updated: 2024/11/09 18:52:12 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,14 @@
 # define FORK_HAS_TAKEN 1
 # define FORK_HAS_RELEASED 0
 # define NO_MEALS_HAVE_BEEN_SPECIFIED 0
-enum e_state
+
+/*enum e_state
 {
 	i_ate_all_meals,
 	alive,
 	dead,
 };
+*/
 
 typedef struct s_input
 {
@@ -78,9 +80,8 @@ typedef struct s_fork
 typedef struct s_thread_param
 {
 	t_fork			*forks;
-	pthread_mutex_t *mutextime;
-	pthread_mutex_t *mutexttd;
-
+	pthread_mutex_t	*mutextime;
+	pthread_mutex_t	*mutexttd;
 	pthread_mutex_t	*mutexdeath;
 	pthread_mutex_t	*mutexwrite;
 	pthread_mutex_t	*mutexmeal;
@@ -100,7 +101,7 @@ typedef struct s_thread_param
 	long			time_to_sleep;
 	long			time_to_die;
 	long			time_of_death;
-	enum e_state	state;
+	//enum e_state	state;
 }	t_thread_pmt;
 
 //validation
@@ -112,6 +113,8 @@ t_fork			*forks_generate(t_input input);
 
 //pmt
 t_thread_pmt	*pmtarray_generate(t_input input, t_fork *foks_array);
+void			mutex_init_partone(t_thread_pmt *pmtarray, t_input input);
+void			mutex_init_parttwo(t_thread_pmt *pmtarray, t_input input);
 
 //philosophers
 pthread_t		*philosophers_generate(t_input input,
@@ -133,8 +136,8 @@ int				print_if_die(t_thread_pmt	*pmt, int i, long time);
 long			get_time(void);
 void			msg(t_thread_pmt *param, char *message);
 
-int			take_forkleft_first(t_thread_pmt *pmt);
-int			take_forkright_first(t_thread_pmt *pmt);
+int				take_forkleft_first(t_thread_pmt *pmt);
+int				take_forkright_first(t_thread_pmt *pmt);
 
 //actions_utils_3
 void			sleeping(t_thread_pmt *param);
@@ -152,6 +155,5 @@ void			last_print(t_thread_pmt	*pmtarray, t_input *input);
 void			free_everything(t_fork *forks_array,
 					t_thread_pmt *pmtarray, pthread_t *philosophers);
 void			mutexdestroy(t_thread_pmt *pmtarray);
-
 
 #endif
