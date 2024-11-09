@@ -6,7 +6,7 @@
 /*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 17:51:54 by largenzi          #+#    #+#             */
-/*   Updated: 2024/11/09 18:38:15 by ubuntu           ###   ########.fr       */
+/*   Updated: 2024/11/09 19:20:37 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,12 @@ static int	monitor_checkmeal(t_thread_pmt *pmt, int *index, int n_of_phil)
 		if (n_of_phil != 1)
 			printf("All meals eaten\n");
 		else
+		{
+			usleep(pmt[n_of_phil].time_to_die + 500);
 			printf("%s%ld %d %s%s\n", RED,
 				get_time() - pmt[i].start_simulation,
 				pmt[i].id, DIED, RESET);
+		}
 		return (0);
 	}
 	pthread_mutex_unlock(pmt[n_of_phil].mutexmeal);
