@@ -1,4 +1,0 @@
-when: september 2024
-- norm on the last files. 
-- last comments
-- check on head_s
